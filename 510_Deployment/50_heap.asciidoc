@@ -25,7 +25,7 @@ export ES_HEAP_SIZE=10g
 
 ==== 把你的内存的一半给 Lucene
 
-一个常见的问题是给 Elasticsearch 配置的内存_太_大了。((("heap", "sizing and setting", "giving half your memory to Lucene")))假设你有一个 64GB 内存的机器，
+一个常见的问题是给 Elasticsearch 分配的内存_太_大了。((("heap", "sizing and setting", "giving half your memory to Lucene")))假设你有一个 64GB 内存的机器，
 天啊，我要把 64G 内存全都给 Elasticsearch。因为越多越好啊！
 
 当然，内存对于 Elasticsearch 来说绝对是重要的，用于更多的内存数据
@@ -36,11 +36,10 @@ Lucene 的设计目的是把底层 OS 里的数据缓存到内存中。((("Lucen
 Lucene的段是分别存储到单个文件中的。因为段是不可变的，
 这些文件也都不会变化。所以很利于缓存，同时操作系统也会把这些段文件缓存起来，以便更快的访问。
 
-Lucene 的性能取决于和 OS 的交互。如果你把所有
-的内存都分配给 Elasticsearch，不留一点给 Lucene。
-那你的全文检索性能会很差的。
+Lucene 的性能取决于和 OS 的交互。如果你把所有的内存都分配给 Elasticsearch，不留一点给 Lucene。
+那你的全文检索性能就会变得很差。
 
-最后标准的建议是把 50％的内存给 Elasticsearch，
+最后，标准的建议是把 50％的内存给 Elasticsearch，
 剩下的 50％也不会没有用处的，Lucene 会很快吞噬剩下的这部分内存。
 
 [[compressed_oops]]
@@ -69,12 +68,12 @@ Java 使用一个叫内存指针压缩的技术 https://wikis.oracle.com/display
 这段描述的意思就是说：即便你有足够的内存，也尽量不要
 超过 32 GB。因为它浪费了内存，降低了 CPU 的性能，还要让 GC 应对大内存。
 
-==== 到底需要低于32GB多少，来设置我的JVM？
+==== 到底需要低于32GB多少，来设置我的 JVM？
 
-遗憾的是，这需要看情况。确切的划分要根据 JVMs 和操作系统的版本情况而定。
+遗憾的是，这需要看情况。确切的划分要根据 JVMs 和操作系统而定。
 如果你想保证其安全可靠，设置堆内存为 `31 gb` 是一个安全的选择。
-另外，你可以在你的 JVM 设置里添加 `-XX:+PrintFlagsFinal` 用来验证 `HotSpot JVM` 的临界值，
-并且检查 UseCompressedOops 的值是否为 true。对于你自己使用的 JVM 和操作系统版本，这将让你找到最合适的堆内存临界值。
+另外，你可以在你的 JVM 设置里添加 `-XX:+PrintFlagsFinal` 用来验证 `JVM` 的临界值，
+并且检查 UseCompressedOops 的值是否为 true。对于你自己使用的 JVM 和操作系统，这将找到最合适的堆内存临界值。
 
 例如，我们在一台安装  Java 1.7 的 MacOSX 上测试，可以看到指针压缩在被禁用之前，最大堆内存大约是在 32600 mb（~31.83 gb）：
 
@@ -96,36 +95,35 @@ $ JAVA_HOME=`/usr/libexec/java_home -v 1.8` java -Xmx32767m -XX:+PrintFlagsFinal
      bool UseCompressedOops   = false
 ----
 
-The morale of the story is that the exact cutoff to leverage compressed oops
-varies from JVM to JVM, so take caution when taking examples from elsewhere and
-be sure to check your system with your configuration and JVM.
+这个例子告诉我们，影响内存指针压缩使用的临界值，
+是会根据 JVM 的不同而变化的。
+所以从其他地方获取的例子，需要谨慎使用，要确认检查操作系统配置和 JVM。
 
-Beginning with Elasticsearch v2.2.0, the startup log will actually tell you if your
-JVM is using compressed OOPs or not.  You'll see a log message like:
+如果使用的是  Elasticsearch v2.2.0，启动日志其实会告诉你 JVM 是否正在使用内存指针压缩。
+你会看到像这样的日志消息：
 
 [source, bash]
 ----
 [2015-12-16 13:53:33,417][INFO ][env] [Illyana Rasputin] heap size [989.8mb], compressed ordinary object pointers [true]
 ----
 
-Which indicates that compressed object pointers are being used.  If they are not,
-the message will say `[false]`.
-
+这表明内存指针压缩正在被使用。如果没有，
+日志消息会显示 `[false]`。
 
 [role="pagebreak-before"]
 .我有一个1TB 内存的机器！
 ****
-这个 32GB 的线是很很重要的。那如果你的机器有很大的内存怎么办呢？
+这个 32GB 的分割线是很重要的。那如果你的机器有很大的内存怎么办呢？
 现在的机器内存普遍增长，你现在都可以看到有 512&#x2013;768 GB
 内存的机器。
 
-首先，我们建议避免使用这样的高配机器(see <<hardware>>)。
+首先，我们建议避免使用这样的高配机器（参考 <<hardware>>）。
 
 但是如果你已经有了这样的机器，你有两个可选项：
 
 - 你主要做全文检索吗？考虑给 Elasticsearch 不超过 32 GB 的内存
 剩下的交给Lucene用作操作系统的文件系统缓存。所有的内存
-都用来缓存 segments，会加快全文检索。
+都用来缓存 segments，这样会加快全文检索。
 
 - 你需要更多的排序和聚合？你希望更大的堆内存。
 你可以考虑一台机器上创建两个或者更多 ES 节点，而不要部署一个使用或者超过 32 GB 内存的节点。
