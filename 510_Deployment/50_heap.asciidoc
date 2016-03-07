@@ -31,6 +31,7 @@ export ES_HEAP_SIZE=10g
 当然，内存对于 Elasticsearch 来说绝对是重要的，它可以被许多内存数据结构使用来提供更快的操作。但是说到这里，
 还有另外一个 _内存消耗_ 大户非堆内存（off-heap）：Lucene。
 
+Lucene 被设计为可以利用操作系统底层机制来缓存内存数据结构。((("Lucene", "memory for")))
 Lucene 的段是分别存储到单个文件中的。因为段是不可变的，这些文件也都不会变化，这是对缓存友好的，同时操作系统也会把这些段文件缓存起来，以便更快的访问。
 
 Lucene 的性能取决于和操作系统的交互。如果你把所有的内存都分配给 Elasticsearch 的堆内存，那将不会有剩余的内存交给 Lucene。
@@ -65,7 +66,7 @@ Java 使用一个叫作  https://wikis.oracle.com/display/HotSpotInternals/Compr
 ==== 到底需要低于 32 GB多少，来设置我的 JVM？
 
 遗憾的是，这需要看情况。确切的划分要根据 JVMs 和操作系统而定。
-如果你想保证其安全可靠，设置堆内存为 `31 gb` 是一个安全的选择。
+如果你想保证其安全可靠，设置堆内存为 `31 GB` 是一个安全的选择。
 另外，你可以在你的 JVM 设置里添加 `-XX:+PrintFlagsFinal` 用来验证 `JVM` 的临界值，
 并且检查 UseCompressedOops 的值是否为 true。对于你自己使用的 JVM 和操作系统，这将找到最合适的堆内存临界值。
 
@@ -104,7 +105,7 @@ $ JAVA_HOME=`/usr/libexec/java_home -v 1.8` java -Xmx32767m -XX:+PrintFlagsFinal
 这表明内存指针压缩正在被使用。如果没有，日志消息会显示 `[false]` 。
 
 [role="pagebreak-before"]
-.我有一个1TB 内存的机器！
+.我有一个 1 TB 内存的机器！
 ****
 这个 32 GB 的分割线是很重要的。那如果你的机器有很大的内存怎么办呢？
 一台有着 512&#x2013;768 GB内存的服务器愈发常见。
@@ -113,9 +114,8 @@ $ JAVA_HOME=`/usr/libexec/java_home -v 1.8` java -Xmx32767m -XX:+PrintFlagsFinal
 
 但是如果你已经有了这样的机器，你有两个可选项：
 
-- 你主要做全文检索吗？考虑给 Elasticsearch 不超过 32 GB 的内存
-剩下的交给Lucene用作操作系统的文件系统缓存。所有的内存
-都用来缓存 segments，这样会加快全文检索。
+- 你主要做全文检索吗？考虑给 Elasticsearch 不超过 32 GB 的内存，
+让 Lucene 通过操作系统文件缓存来利用余下的内存。那些内存都会用来缓存 segments，带来极速的全文检索。
 
 - 你需要更多的排序和聚合？你可能会更希望那些那些内存用在堆中。
 你可以考虑一台机器上创建两个或者更多 ES 节点，而不要部署一个使用或者超过 32 GB 内存的节点。
