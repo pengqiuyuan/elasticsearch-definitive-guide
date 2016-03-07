@@ -123,7 +123,7 @@ $ JAVA_HOME=`/usr/libexec/java_home -v 1.8` java -Xmx32767m -XX:+PrintFlagsFinal
 你可以创建两个节点，每个节点内存分配不超过 32 GB。
 也就是说不超过 64 GB 内存给 ES 的堆内存，剩下的超过 64 GB 的内存给 Lucene。
 +
-如果你选择第二种，你需要配置 `cluster.routing.allocation.same_shard.host: true`。
+如果你选择第二种，你需要配置 `cluster.routing.allocation.same_shard.host: true` 。
 这会防止同一个分片（shard）的主副本存在同一个物理机上（因为如果存在一个机器上，副本的高可用性就没有了）。
 ****
 
