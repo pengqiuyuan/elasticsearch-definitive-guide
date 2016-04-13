@@ -1,30 +1,21 @@
 
-=== Java Virtual Machine
+=== Java 虚拟机
 
-You should always run the most recent version of the Java Virtual Machine (JVM),
-unless otherwise stated on the Elasticsearch website.((("deployment", "Java Virtual Machine (JVM)")))((("JVM (Java Virtual Machine)")))((("Java Virtual Machine", see="JVM")))  Elasticsearch, and in
-particular Lucene, is a demanding piece of software.  The unit and integration
-tests from Lucene often expose bugs in the JVM itself.  These bugs range from
-mild annoyances to serious segfaults, so it is best to use the latest version
-of the JVM where possible.
+你应该始终运行最新版本的 Java 虚拟机（ JVM），
+除非 Elasticsearch 网站上另有说明。((("deployment", "Java Virtual Machine (JVM)")))((("JVM (Java Virtual Machine)")))((("Java Virtual Machine", see="JVM")))  Elasticsearch，
+特别是 Lucene，是一个高要求的软件。Lucene 的单元测试和集成测试经常暴露出 JVM 本身的 bug。这些 bug 的范围从轻微的麻烦到严重段错误，所以，最好尽可能的使用最新版本的 JVM。
 
-Java 7 is strongly preferred over Java 6.  Either Oracle or OpenJDK are acceptable. They are comparable in performance and stability.
+Java 7 强烈优先选择于 Java 6。Oracle 或者 OpenJDK 是可以接受的，它们在性能和稳定性也差不多。
 
-If your application is written in Java and you are using the transport client
-or node client, make sure the JVM running your application is identical to the
-server JVM.  In few locations in Elasticsearch, Java's native serialization
-is used (IP addresses, exceptions, and so forth).  Unfortunately, Oracle has been known to
-change the serialization format between minor releases, leading to strange errors.
-This happens rarely, but it is best practice to keep the JVM versions identical
-between client and server.
+如果你的应用程序是用 Java 编写并正在使用 transport 客户端或 node 客户端，请确保 JVM 运行你的应用程序是完全相同的服务器 JVM。
+在 Elasticsearch 几个地方，使用 Java 的本地序列化（ IP 地址、异常等等）。不幸的是，Oracle 会更改序列化格式之间较小的版本，从而导致奇怪的错误。
+这种情况很少见，但它是保持客户端和服务器之间 JVM 相同版本的最佳实践。
 
-.Please Do Not Tweak JVM Settings
+.请不要调整JVM设置
 ****
-The JVM exposes dozens (hundreds even!) of settings, parameters, and configurations.((("JVM (Java Virtual Machine)", "avoiding custom configuration")))
-They allow you to tweak and tune almost every aspect of the JVM.
+JVM 暴露出几十个（甚至数百）的设置、参数和配置。((("JVM (Java Virtual Machine)", "avoiding custom configuration"))) 它们允许你进行微调 JVM 几乎是每一个方面。
 
-When a knob is encountered, it is human nature to want to turn it.  We implore
-you to squash this desire and _not_ use custom JVM settings.  Elasticsearch is
+当遇到一个旋钮，它是人的本性，要打开它。我们恳求你压制这个本性，而 _不是_ 使用自定义 JVM 设置。Elasticsearch is
 a complex piece of software, and the current JVM settings have been tuned
 over years of real-world usage.
 
@@ -74,5 +65,3 @@ by hand without making a mistake.
 Configuration management tools help make your cluster consistent by automating
 the process of config changes.  It may take a little time to set up and learn,
 but it will pay itself off handsomely over time.
-
-
