@@ -7,61 +7,38 @@
 
 Java 7 强烈优先选择于 Java 6。Oracle 或者 OpenJDK 是可以接受的，它们在性能和稳定性也差不多。
 
-如果你的应用程序是用 Java 编写并正在使用 transport 客户端或 node 客户端，请确保 JVM 运行你的应用程序是完全相同的服务器 JVM。
-在 Elasticsearch 几个地方，使用 Java 的本地序列化（ IP 地址、异常等等）。不幸的是，Oracle 会更改序列化格式之间较小的版本，从而导致奇怪的错误。
+如果你的应用程序是用 Java 编写并正在使用传输（ transport ）客户端或节点（ node ）客户端，请确保 JVM 运行你的应用程序是完全相同的服务器 JVM。
+在 Elasticsearch 的几个地方，使用 Java 的本地序列化（ IP 地址、异常等等）。不幸的是，Oracle 会更改序列化格式之间较小的版本，从而导致奇怪的错误。
 这种情况很少见，但它是保持客户端和服务器之间 JVM 相同版本的最佳实践。
 
 .请不要调整JVM设置
 ****
 JVM 暴露出几十个（甚至数百）的设置、参数和配置。((("JVM (Java Virtual Machine)", "avoiding custom configuration"))) 它们允许你进行微调 JVM 几乎是每一个方面。
-
-当遇到一个旋钮，它是人的本性，要打开它。我们恳求你压制这个本性，而 _不是_ 使用自定义 JVM 设置。Elasticsearch is
-a complex piece of software, and the current JVM settings have been tuned
-over years of real-world usage.
-
-It is easy to start turning knobs, producing opaque effects that are hard to measure,
-and eventually detune your cluster into a slow, unstable mess.  When debugging
-clusters, the first step is often to remove all custom configurations.  About
-half the time, this alone restores stability and performance.
+当遇到一个旋钮，它是人的本性，要打开它。我们恳求你压制这个本性，而 _不是_ 使用自定义 JVM 设置。Elasticsearch 是复杂的软件，并且我们根据多年的实际使用情况调整了当前 JVM 设置。
+它很容易开始转动旋钮，并产生难以衡量的不透明的影响，并最终使集群进入一个缓慢的，不稳定的混乱的效果。当调试集群时，第一步往往是去除所有的自定义配置。大约一半的时间，仅此恢复稳定性和性能。
 ****
 
-=== Transport Client Versus Node Client
+=== 传输客户端与节点客户端
 
-If you are using Java, you may wonder when to use the transport client versus the
-node client.((("Java", "clients for Elasticsearch")))((("clients")))((("node client", "versus transport client")))((("transport client", "versus node client")))  As discussed at the beginning of the book, the transport client
-acts as a communication layer between the cluster and your application.  It knows
-the API and can automatically round-robin between nodes, sniff the cluster for you,
-and more. But it is _external_ to the cluster, similar to the REST clients.
+如果你使用的是 Java，你可能想知道何时使用传输客户端与节点客户端。((("Java", "clients for Elasticsearch")))((("clients")))((("node client", "versus transport client")))((("transport client", "versus node client"))) 在书的开头所述，
+传输客户端作为一个集群和应用程序之间的通信层。它知道 API 和节点之间可以自动循环，帮你嗅探集群等等。但它是 _外部的_ 集群，类似于其他客户。
 
-The node client, on the other hand, is actually a node within the cluster (but
-does not hold data, and cannot become master).  Because it is a node, it knows
-the entire cluster state (where all the nodes reside, which shards live in which
-nodes, and so forth). This means it can execute APIs with one less network hop.
+另一方面，节点的客户，实际上是一个集群中的节点（但不保存数据，不能成为主节点）。因为它是一个节点，它知道整个集群状态（所有节点驻留，分片分布在哪些节点，等等）。
+这意味着它可以执行 APIs 但少了一个网络跃点。
 
-There are uses-cases for both clients:
+这里有两个客户端案例的使用情况：
 
-- The transport client is ideal if you want to decouple your application from the
-cluster.  For example, if your application quickly creates and destroys
-connections to the cluster, a transport client is much "lighter" than a node client,
-since it is not part of a cluster.
+- 传输客户端是理想的如果你想分离应用程序的集群。例如，如果您的应用程序需要快速创建和破坏连接到集群，传输客户端比节点客户端”轻”，因为它不是一个集群的一部分。
 +
-Similarly, if you need to create thousands of connections, you don't want to
-have thousands of node clients join the cluster.  The TC will be a better choice.
+类似地，如果您需要创建成千上万的连接，你不想有成千上万节点加入集群。传输客户端（ TC ）将是一个更好的选择。
 
-- On the flipside, if you need only a few long-lived, persistent connection
-objects to the cluster, a node client can be a bit more efficient since it knows
-the cluster layout.  But it ties your application into the cluster, so it may
-pose problems from a firewall perspective.
+- 另一方面，如果你只需要有少数的、长期持久的对象连接到集群，客户端节点可以更高效，因为它知道集群的布局。但是这关系到你的应用程序加入集群，所以从防火墙的角度，它可能会构成问题。
 
-=== Configuration Management
+=== 配置管理
 
-If you use configuration management already (Puppet, Chef, Ansible), you can skip this tip.((("deployment", "configuration management")))((("configuration management")))
+如果你已经使用配置管理（ Puppet，Chef，Ansible），则可以跳过此提示。((("deployment", "configuration management")))((("configuration management")))
 
-If you don't use configuration management tools yet, you should!  Managing
-a handful of servers by `parallel-ssh` may work now, but it will become a nightmare
-as you grow your cluster.  It is almost impossible to edit 30 configuration files
-by hand without making a mistake.
+如果你没有使用配置管理工具，那么应该注意了！通过 `parallel-ssh` 管理少量服务器现在可能正常工作，但伴随着集群的增长它将成为一场噩梦。
+它几乎不可能在不犯错误的情况下，手动编辑 30 个配置文件。
 
-Configuration management tools help make your cluster consistent by automating
-the process of config changes.  It may take a little time to set up and learn,
-but it will pay itself off handsomely over time.
+配置管理工具使集群通过自动配置的变化过程是一致的。这可能需要一点时间来建立和学习，但它本身，随着时间的推移会有丰厚的回报。
