@@ -18,7 +18,7 @@ JVM 暴露出几十个（甚至数百）的设置、参数和配置。((("JVM (J
 它很容易开始转动旋钮，并产生难以衡量的不透明的影响，并最终使集群进入一个缓慢的，不稳定的混乱的效果。当调试集群时，第一步往往是去除所有的自定义配置。大约一半的时间，仅此恢复稳定性和性能。
 ****
 
-=== 传输客户端与节点客户端
+=== Transport Client 与 Node Client
 
 如果你使用的是 Java，你可能想知道何时使用传输客户端（注：Transport Client，下同）与节点客户端（注：Node Client，下同）。((("Java", "clients for Elasticsearch")))((("clients")))((("node client", "versus transport client")))((("transport client", "versus node client"))) 在书的开头所述，
 传输客户端作为一个集群和应用程序之间的通信层。它知道 API 和节点之间可以轮询，帮你嗅探集群等等。但它是集群 _外部的_ ，和 REST 客户端类似。
