@@ -21,7 +21,7 @@ JVM 暴露出几十个（甚至数百）的设置、参数和配置。((("JVM (J
 === Transport Client 与 Node Client
 
 如果你使用的是 Java，你可能想知道何时使用传输客户端（注：Transport Client，下同）与节点客户端（注：Node Client，下同）。((("Java", "clients for Elasticsearch")))((("clients")))((("node client", "versus transport client")))((("transport client", "versus node client"))) 在书的开头所述，
-传输客户端作为一个集群和应用程序之间的通信层。它知道 API 和节点之间可以轮询，帮你嗅探集群等等。但它是集群 _外部的_ ，和 REST 客户端类似。
+传输客户端作为一个集群和应用程序之间的通信层。它知道 API 并能自动帮你在节点之间轮询，帮你嗅探集群等等。但它是集群 _外部的_ ，和 REST 客户端类似。
 
 另一方面，节点客户端，实际上是一个集群中的节点（但不保存数据，不能成为主节点）。因为它是一个节点，它知道整个集群状态（所有节点驻留，分片分布在哪些节点，等等）。
 这意味着它可以执行 APIs 但少了一个网络跃点。
