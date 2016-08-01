@@ -39,7 +39,7 @@ Lucene 的性能取决于和操作系统的相互作用。如果你把所有的�
 
 标准的建议是把 50％ 的可用内存作为 Elasticsearch 的堆内存，保留剩下的 50％。当然它也不会被浪费，Lucene 会很乐意利用起余下的内存。
 
-如果你不需要聚合分析字符串字段（例如，你不需要 <<aggregations-and-analysis,fielddata>> ）您可以考虑降低堆内存。你可以设置更小的堆内存，可以期待 Elasticsearch（快 GCs）和 Lucene（更多的内存用于缓存）更好的性能。
+如果你不需要对分词字符串做聚合计算（例如，不需要 <<aggregations-and-analysis,fielddata>> ）可以考虑降低堆内存。设置更小的堆内存，可以期待 Elasticsearch（快 GCs）和 Lucene（更多的内存用于缓存）更好的性能。
 
 [[compressed_oops]]
 ==== 不要超过 32 GB！
@@ -116,10 +116,10 @@ $ JAVA_HOME=`/usr/libexec/java_home -v 1.8` java -Xmx32767m -XX:+PrintFlagsFinal
 
 但是如果你已经有了这样的机器，你有三个可选项：
 
-- 你主要做全文检索吗？考虑给 Elasticsearch 超过 4-32 GB 的内存，
+- 你主要做全文检索吗？考虑给 Elasticsearch 4 - 32 GB 的内存，
 让 Lucene 通过操作系统文件缓存来利用余下的内存。那些内存都会用来缓存 segments，带来极速的全文检索。
 
-- 你需要更多的排序和聚合？而且大部分的聚合计算是在数字、日期、地理点和`非分词`字符串上？你很幸运，你的聚合计算将在内存友好的 doc values 上完成！
+- 你需要更多的排序和聚合？而且大部分的聚合计算是在数字、日期、地理点和 `非分词` 字符串上？你很幸运，你的聚合计算将在内存友好的 doc values 上完成！
 给 Elasticsearch 4 到 32 GB 的内存，其余部分为操作系统缓存内存中的 doc values。
 
 - 你在对分词字符串做大量的排序和聚合（例如，标签或者 SigTerms，等等）不幸的是，这意味着你需要 fielddata，意味着你需要堆空间。考虑在单个机器上运行两个或多个节点，而不是拥有大量 RAM 的一个节点。仍然要坚持 50％ 原则。
