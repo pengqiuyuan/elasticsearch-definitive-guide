@@ -38,12 +38,12 @@ PUT /my_index
 [TIP]
 ==================================================
 
-同义词可以指定内联的 `同义词` 参数，或者必须 ((("synonyms", "specifying inline or in a separate file"))) 存在于集群每一个节点上的同义词文件中。
-同义词文件路径由 `synonyms_path` 参数指定，应绝对或相对于 Elasticsearch `配置` 目录。参照 <<updating-stopwords>> 的技巧，可以用来刷新的同义词列表。
+同义词可以使用 `synonym` 参数来内嵌指定，或者必须 ((("synonyms", "specifying inline or in a separate file"))) 存在于集群每一个节点上的同义词文件中。
+同义词文件路径由 `synonyms_path` 参数指定，应绝对或相对于 Elasticsearch `config` 目录。参照 <<updating-stopwords>> 的技巧，可以用来刷新的同义词列表。
 
 ==================================================
 
-通过 `分析` API 来测试我们的分析器，显示如下：
+通过 `analyze` API 来测试我们的分析器，显示如下：
 
 [source,json]
 -------------------------------------
@@ -59,7 +59,7 @@ Pos 3: (the)
 Pos 4: (british,english) <1>
 Pos 5: (queen,monarch) <1>
 ------------------------------------
-<1> 所有同义词与原始词项占有同样的地位。
+<1> 所有同义词与原始词项占有同一个位置。
 
 这样的一个文件将匹配任何以下的查询： `English queen` 、`British queen` 、 `English monarch` or `British monarch` 。
 即使是一个短语查询也将会工作，因为每个词项的位置已被保存。
