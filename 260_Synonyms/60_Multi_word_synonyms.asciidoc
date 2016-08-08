@@ -63,7 +63,7 @@ Pos 5:  (wealthy,america)
 * The U.S. of wealthy
 * U.S. is america
 
-如果你是在查询阶段使同义词，那你就会看到更加诡异的匹配结果。看下这个 `validate-query` 查询:
+如果你是在查询阶段使同义词，那你就会看到更加诡异的匹配结果。看下这个 `validate-query` 查询：
 
 [source,json]
 -----------------------------------
@@ -89,14 +89,14 @@ GET /my_index/_validate/query?explain
 [TIP]
 ==================================================
 
-多词同义 ((("highlighting searches", "multiword synonyms and"))) 对高亮匹配结果也会造成影响。一个针对 `USA` 的查询，返回的结果可能却高亮了： ``The _United States is wealthy_'' 。
+多词同义((("highlighting searches", "multiword synonyms and")))对高亮匹配结果也会造成影响。一个针对 `USA` 的查询，返回的结果可能却高亮了： The _United States is wealthy_  。
 
 ==================================================
 
 ==== 使用简单收缩进行短语查询
 
-避免这种混乱的方法是使用 <<synonyms-contraction,简单收缩>>
-来用单个词项 ((("synonyms", "multiword, and phrase queries", "using simple contraction")))((("phrase matching", "multiword synonyms and", "using simple contraction")))((("simple contraction (synonyms)", "using for phrase queries"))) 表示所有的同义词，
+避免这种混乱的方法是使用 <<synonyms-contraction,简单收缩>>，
+用单个词项((("synonyms", "multiword, and phrase queries", "using simple contraction")))((("phrase matching", "multiword synonyms and", "using simple contraction")))((("simple contraction (synonyms)", "using for phrase queries")))表示所有的同义词，
 然后在查询阶段，就只需要针对这单个词进行查询了：
 
 [source,json]
@@ -150,10 +150,10 @@ Pos 5:  (wealthy)
 ==== 同义词与 query_string 查询
 
 本书很少谈论到 `query_string` 查询，((("query strings", "synonyms and")))((("synonyms", "multiword, and query string queries")))因为真心不推荐你用它。
-在 <<query-string-query, "More-Complicated Queries">> 一节中有提到，由于 `query_string` 查询支持一个精简的 _查询语法_ ，因此，可能这会导致它搜出一些出人意料的结果或者甚至是含有语法错误的结果。
+在 <<query-string-query, 复杂查询>> 一节中有提到，由于 `query_string` 查询支持一个精简的 _查询语法_ ，因此，可能这会导致它搜出一些出人意料的结果或者甚至是含有语法错误的结果。
 
 这种查询方式存在不少问题，而其中之一便与多词同义有关。为了支持它的查询语法，你必须用指定的、该语法所能识别的操作符号来标示，比如 `AND` 、 `OR` 、 `+` 、 `-` 、 `field:` 等等。
-(更多相关内容参阅 {ref}/query-dsl-query-string-query.html#query-string-syntax[`query_string` syntax] 。)
+(更多相关内容参阅 {ref}/query-dsl-query-string-query.html#query-string-syntax[`query_string` 语法] 。)
 
 而在这种语法的解析过程中，解析动作会把查询文本在空格符处作切分，然后分别把每个切分出来的词传递给相关性解析器。
 这也即意味着你的同义词解析器永远都不可能收到类似 `United States` 这样的多个单词组成的同义词。由于不会把 `United States` 作为一个原子性的文本，所以同义词解析器的输入信息永远都是两个被切分开的词 `United` 和 `States` 。
