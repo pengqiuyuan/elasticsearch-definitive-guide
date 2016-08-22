@@ -37,7 +37,7 @@ GET /_nodes/process
 ----
 <1> `max_file_descriptors` 字段显示 Elasticsearch 进程可以访问的可用文件描述符数量。
 
-Elasticsearch 还使用 NioFS 和 MMapFS ((("MMapFS"))) 用于各种文件的混合。确保你配置最大地图计数，以便有足够的虚拟内存可用于 mmapped 文件。这可以暂时设置：
+Elasticsearch 对各种文件混合使用了 NioFs（ 注：非阻塞文件系统）和 MMapFs((("MMapFS"))) （ 注：内存映射文件系统）。请确保你配置的最大映射数量，以便有足够的虚拟内存可用于 mmapped 文件。这可以暂时设置：
 
 [source,js]
 ----
