@@ -48,7 +48,7 @@ GET /my_index/_search
 
 查询部分简单又高效。倒排索引是根据项来排序的，所以我们首先在词项列表中找到 +brown+ ，然后扫描所有列，找到包含 +brown+ 的文档。我们可以快速看到 `Doc_1` 和 `Doc_2` 包含 +brown+ 这个 token。
 
-然后，对于聚合部分，我们需要找到 `Doc_1` 和 `Doc_2` 里所有唯一的词项，((("aggregations", "doc values", "using instead of inverted index"))) 用倒排所以做这件事情代价很高：
+然后，对于聚合部分，我们需要找到 `Doc_1` 和 `Doc_2` 里所有唯一的词项。((("aggregations", "doc values", "using instead of inverted index"))) 用倒排索引做这件事情代价很高：
 我们会迭代索引里的每个词项并收集 `Doc_1` 和 `Doc_2` 列里面 token。这很慢而且难以扩展：随着词项和文档的数量增加，执行时间也会增加。
 
 Doc values 通过转置两者间的关系来解决这个问题。倒排索引将词项映射到包含它们的文档，doc values 将文档映射到它们包含的词项：
