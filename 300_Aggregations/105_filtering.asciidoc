@@ -1,7 +1,7 @@
 
 === Fielddata 的过滤（Fielddata Filtering）
 
-设想我们正在运行一个网站运行用户收听他们喜欢的歌曲。((("fielddata", "filtering")))((("aggregations", "fielddata", "filtering")))
+设想我们正在运行一个网站允许用户收听他们喜欢的歌曲。((("fielddata", "filtering")))((("aggregations", "fielddata", "filtering")))
 为了让他们可以更容易的管理自己的音乐库，用户可以为歌曲设置任何他们喜欢的标签，这样我们就会有很多歌曲被附上 `rock（摇滚）` 、 `hiphop（嘻哈）` 和 `electronica（电音）` ，但也会有些歌曲被附上 `my_16th_birthday_favorite_anthem` 这样的标签。
 
 现在设想我们想要为用户展示每首歌曲最受欢迎的三个标签，很有可能 `rock` 这样的标签会排在三个中的最前面，而 `my_16th_birthday_favorite_anthem` 则不太可能得到评级。
