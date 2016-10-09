@@ -113,6 +113,7 @@ GET mlratings/_search
 // SENSE: 300_Aggregations/75_sigterms.json
 
 这样我们可以看到每个用户的推荐信息。每个文档表示一个用户，用 ID 字段 `user` 来表示， `movie` 字段维护一个用户观看过和用户推荐的影片列表。
+
 ==== 基于受欢迎度推荐（Recommending Based on Popularity）
 
 我们可以采取的首个策略就是基于受欢迎度向用户推荐影片。((("popularity", "movie recommendations based on")))
@@ -121,7 +122,7 @@ GET mlratings/_search
 我们可以很容易的通过一个 `terms` 聚合 ((("terms aggregation", "movie recommendations (example)")))以及一些过滤来表示它，让我们看看 _Talladega Nights（塔拉迪加之夜）_ 这部影片，它是 Will Ferrell 主演的一部关于全国运动汽车竞赛（NASCAR racing）的喜剧。
 在理想情况下，我们的推荐应该找到类似风格的喜剧（很有可能也是 Will Ferrell 主演的）。
 
-首先我们需要找到影片 _Talladega Nights_ 的ID：
+首先我们需要找到影片 _Talladega Nights_ 的 ID：
 
 [source,js]
 ----
