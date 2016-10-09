@@ -127,14 +127,13 @@ GET /cars/transactions/_search
 
 这通常对 UI 的连贯一致性很重要，可以想象用户在界面商选择了一类颜色（比如：绿色），期望的是搜索结果已经被过滤了，而 _不是_ 过滤界面上的选项。如果我们应用 `filter` 查询，界面会马上变成 _只_ 显示 +绿色+ 作为选项，这不是用户想要的！
 
-[警告]
+[WARNING]
 .性能考虑（Performance consideration）
 ====
 _只在_ 我们需要区别过滤搜索结果和聚合结果时使用 `post_filter` ((("post filter", "performance and"))) 有时用户会在普通搜索使用 `post_filter` 。
 不要这么做！ `post_filter` 的特性是在查询 _之后_ 执行，所以任何过滤所带来的好处（比如缓存）都会完全失去。
 
-The `post_filter` should be used only in combination with aggregations, and only
-when you need differential filtering.
+ `post_filter` 应该只在我们需要不同过滤时，只与聚合一起使用。
 ====
 
 [float="true"]
