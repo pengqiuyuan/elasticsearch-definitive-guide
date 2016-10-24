@@ -5,7 +5,11 @@
 除非 Elasticsearch 网站上另有说明。((("deployment", "Java Virtual Machine (JVM)")))((("JVM (Java Virtual Machine)")))((("Java Virtual Machine", see="JVM")))  Elasticsearch，
 特别是 Lucene，是一个高要求的软件。Lucene 的单元测试和集成测试经常暴露出 JVM 本身的 bug。这些 bug 的范围从轻微的麻烦到严重段错误，所以，最好尽可能的使用最新版本的 JVM。
 
+<<<<<<< HEAD
 Java 8 强烈优先选择于 Java 7。不再支持 Java 6。Oracle 或者 OpenJDK 是可以接受的，它们在性能和稳定性也差不多。
+=======
+Java 8 is preferred over Java 7.  Java 6 is no longer supported.  Either Oracle or OpenJDK are acceptable. They are comparable in performance and stability.
+>>>>>>> 9e382b03a2792377eb3346c0ff7341f565f85698
 
 如果你的应用程序是用 Java 编写并正在使用传输客户端（注：Transport Client，下同）或节点客户端（注：Node Client，下同），请确保运行你应用程序的 JVM 和服务器的 JVM 是完全一样的。
 在 Elasticsearch 的几个地方，使用 Java 的本地序列化（ IP 地址、异常等等）。不幸的是，Oracle 的 JVM 在几个小版本之间有修改序列化格式，从而导致奇怪的错误。
