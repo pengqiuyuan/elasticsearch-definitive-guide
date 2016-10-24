@@ -1,15 +1,11 @@
-
+[[_java_virtual_machine]]
 === Java 虚拟机
 
 你应该始终运行最新版本的 Java 虚拟机（ JVM ），
 除非 Elasticsearch 网站上另有说明。((("deployment", "Java Virtual Machine (JVM)")))((("JVM (Java Virtual Machine)")))((("Java Virtual Machine", see="JVM")))  Elasticsearch，
 特别是 Lucene，是一个高要求的软件。Lucene 的单元测试和集成测试经常暴露出 JVM 本身的 bug。这些 bug 的范围从轻微的麻烦到严重段错误，所以，最好尽可能的使用最新版本的 JVM。
 
-<<<<<<< HEAD
 Java 8 强烈优先选择于 Java 7。不再支持 Java 6。Oracle 或者 OpenJDK 是可以接受的，它们在性能和稳定性也差不多。
-=======
-Java 8 is preferred over Java 7.  Java 6 is no longer supported.  Either Oracle or OpenJDK are acceptable. They are comparable in performance and stability.
->>>>>>> 9e382b03a2792377eb3346c0ff7341f565f85698
 
 如果你的应用程序是用 Java 编写并正在使用传输客户端（注：Transport Client，下同）或节点客户端（注：Node Client，下同），请确保运行你应用程序的 JVM 和服务器的 JVM 是完全一样的。
 在 Elasticsearch 的几个地方，使用 Java 的本地序列化（ IP 地址、异常等等）。不幸的是，Oracle 的 JVM 在几个小版本之间有修改序列化格式，从而导致奇怪的错误。
@@ -22,6 +18,7 @@ JVM 暴露出几十个（甚至数百）的设置、参数和配置。((("JVM (J
 它很容易开始转动旋钮，并产生难以衡量的、未知的影响，并最终使集群进入一个缓慢的、不稳定的混乱的效果。当调试集群时，第一步往往是去除所有的自定义配置。多数情况下，仅此就可以恢复稳定和性能。
 ****
 
+[[_transport_client_versus_node_client]]
 === Transport Client 与 Node Client
 
 如果你使用的是 Java，你可能想知道何时使用传输客户端（注：Transport Client，下同）与节点客户端（注：Node Client，下同）。((("Java", "clients for Elasticsearch")))((("clients")))((("node client", "versus transport client")))((("transport client", "versus node client"))) 在书的开头所述，
@@ -38,6 +35,7 @@ JVM 暴露出几十个（甚至数百）的设置、参数和配置。((("JVM (J
 
 - 另一方面，如果你只需要有少数的、长期持久的对象连接到集群，客户端节点可以更高效，因为它知道集群的布局。但是它会使你的应用程序和集群耦合在一起，所以从防火墙的角度，它可能会构成问题。
 
+[[_configuration_management]]
 === 配置管理
 
 如果你已经使用配置管理（ Puppet，Chef，Ansible），则可以跳过此提示。((("deployment", "configuration management")))((("configuration management")))
