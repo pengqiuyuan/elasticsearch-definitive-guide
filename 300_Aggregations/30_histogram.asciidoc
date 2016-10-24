@@ -1,4 +1,4 @@
-
+[[_building_bar_charts]]
 == 信息聚合之条形图
 
 聚合还有一个令人激动的特性就是能够十分容易地将它们转换成图表和图形。((("bar charts, building from aggregations", id="ix_barcharts", range="startofrange")))((("aggregations", "building bar charts from")))本章中，
