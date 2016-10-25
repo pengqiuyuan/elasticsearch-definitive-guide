@@ -1,6 +1,6 @@
 
 [[_scoping_aggregations]]
-== 信息聚合之范围限定
+== 范围限定
 
 所有聚集的例子到目前为止，你可能已经注意到，我们省略了一个 `query` 的搜索请求((("queries", "in aggregations")))((("aggregations", "scoping"))) 完整的请求只不过是一个聚合。
 
