@@ -1,5 +1,5 @@
-
-== 信息聚合之多值排序
+[[_sorting_multivalue_buckets]]
+== 多值排序
 
 多值桶（ `terms` 、 `histogram` 和 +date_histogram+ ）动态生成很多桶。((("sorting", "of multivalue buckets")))((("buckets", "multivalue, sorting")))((("aggregations", "sorting multivalue buckets"))) Elasticsearch 是如何决定这些桶展示给用户的顺序呢？
 
