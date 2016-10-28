@@ -1,4 +1,4 @@
-
+[[_fielddata_filtering]]
 === Fielddata 的过滤（Fielddata Filtering）
 
 设想我们正在运行一个网站允许用户收听他们喜欢的歌曲。((("fielddata", "filtering")))((("aggregations", "fielddata", "filtering")))
