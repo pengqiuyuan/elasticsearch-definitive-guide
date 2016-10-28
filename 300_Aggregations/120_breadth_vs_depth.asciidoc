@@ -1,4 +1,4 @@
-
+[[_preventing_combinatorial_explosions]]
 === 避免组合爆炸（Preventing Combinatorial Explosions）
 
 `terms` 桶基于我们的数据动态构建桶；它并不知道到底生成了多少桶。((("combinatorial explosions, preventing")))((("aggregations", "preventing combinatorial explosions"))) 尽管这对单个聚合还行，
