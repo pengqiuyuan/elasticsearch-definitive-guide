@@ -1,4 +1,4 @@
-
+[[_significant_terms_demo]]
 === significant_terms 演示
 
 因为 `significant_terms` 聚合((("significant_terms aggregation", "demonstration of")))((("aggregations", "significant_terms", "demonstration of"))) 是通过分析统计信息来工作的，
