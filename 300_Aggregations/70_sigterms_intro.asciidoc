@@ -1,5 +1,5 @@
 [[significant-terms]]
-== 信息聚合之显著项
+== 显著项
 
 `significant_terms` （SigTerms）聚合((("significant_terms aggregation")))((("aggregations", "Significant Terms"))) 与其他聚合都不相同。
 目前为止我们看到的所有聚合在本质上都是简单的数学计算。将不同这些构造块相互组合在一起，我们可以创建复杂的聚合以及数据报表。
