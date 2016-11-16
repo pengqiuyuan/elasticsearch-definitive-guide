@@ -1,5 +1,5 @@
 [[_preventing_combinatorial_explosions]]
-=== 优化聚合查询（Preventing Combinatorial Explosions）
+=== 优化聚合查询
 
 “elasticsearch 里面桶的叫法和 SQL 里面分组的概念是类似的，一个桶就类似 SQL 里面的一个 group，多级嵌套的 aggregation，
 类似 SQL 里面的多字段分组（group by field1,field2, .....），注意这里仅仅是概念类似，底层的实现原理是不一样的。 －译者注”
@@ -55,7 +55,7 @@ image::images/300_120_depth_first_1.svg["Build full depth tree"]
 
 用真实点的数据，设想平均每部影片有 10 名演员，每部影片就会生成 10^2^ == 100 个桶。如果总共有 20，000 部影片，粗率计算就会生成 2，000，000 个桶。
 
-No现在，记住，聚合只是简单的希望得到前十位演员和与他们联合出演者，总共 50 条数据。为了得到最终的结果，我们创建了一个有 2，000，000 桶的树，然后对其排序，取 top10。
+现在，记住，聚合只是简单的希望得到前十位演员和与他们联合出演者，总共 50 条数据。为了得到最终的结果，我们创建了一个有 2，000，000 桶的树，然后对其排序，取 top10。
 图 <<depth-first-2>> 和图 <<depth-first-3>> 对这个过程进行了阐述。
 
 [[depth-first-2]]
