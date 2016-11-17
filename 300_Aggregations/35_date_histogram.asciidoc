@@ -1,7 +1,7 @@
 
 == 按时间统计
 
-如果搜索是在Elasticsearch中使用频率最高的，那么构建按时间统计的date_histogram紧随其后。((("date histograms, building")))((("histograms", "building date histograms")))((("aggregations", "building date histograms from")))  为什么你会想用date_histogram呢？
+如果搜索是在 Elasticsearch 中使用频率最高的，那么构建按时间统计的 date_histogram 紧随其后。((("date histograms, building")))((("histograms", "building date histograms")))((("aggregations", "building date histograms from")))  为什么你会想用 date_histogram 呢？
 
 假设你的数据带时间戳。((("time, analytics over", id="ix_timeanalyze")))  无论是什么数据--Apache
 事件日志, 股票买卖交易时间, 棒球运动时间--只要带有时间戳都可以进行date_histogram分析。  当你的数据有时间戳，你总是想在 _时间_ 维度上构建指标分析：
