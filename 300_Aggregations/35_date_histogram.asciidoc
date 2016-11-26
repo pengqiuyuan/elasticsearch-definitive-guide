@@ -152,7 +152,7 @@ image::images/elas_29in01.png["汽车销售时间图"]
 === 扩展例子
 
 正如我们已经见过很多次，buckets 可以嵌套进 buckets 中从而得到更复杂的分析。((("buckets", "nested in other buckets", "extended example")))((("aggregations", "extended example")))
-作为例子，我们构建聚合以便按季度展示所有品牌的总销售额。我们按季度计算每种品牌的总销售额，以便可以找出哪种品牌最赚钱：
+作为例子，我们构建聚合以便按季度展示所有汽车品牌总销售额。同时按季度、按每个汽车品牌计算销售总额，以便可以找出哪种品牌最赚钱：
 
 [source,js]
 --------------------------------------------------
@@ -243,14 +243,14 @@ image::images/elas_29in02.png["按品牌分布的每季度销售额"]
 
 === 潜力无穷
 
-这些很明显都是简单例子，但图表聚合其实是潜力无穷的。((("dashboards", "building from aggregations")))((("Kibana", "dashboard in"))) 如 <<kibana-img>> 展示了 Kibana 中用各种聚合构建的页面。
+这些很明显都是简单例子，但图表聚合其实是潜力无穷的。((("dashboards", "building from aggregations")))((("Kibana", "dashboard in"))) 如 <<kibana-img>> 展示了 Kibana 中用各种聚合构建的面板。
 
 
 [[kibana-img]]
-.Kibana--用聚合构建的实时分析页面
-image::images/elas_29in03.png["Kibana--用聚合构建的实时分析页面"]
+.Kibana--用聚合构建的实时分析面板
+image::images/elas_29in03.png["Kibana--用聚合构建的实时分析面板"]
 
-因为聚合的实时性，类似这样的页面很容易查询、操作和交互。这使得它们成为需要分析数据又不会构建 Hadoop 作业的非技术人员的理想工具。
+因为聚合的实时性，类似这样的面板很容易查询、操作和交互。这使得它们成为需要分析数据又不会构建 Hadoop 作业的非技术人员的理想工具。
 
-当然，为了构建类似 Kibana 这样的强大页面，你可能需要更深的知识，如范围限定，过滤和排序聚合。
+当然，为了构建类似 Kibana 这样的强大面板，你可能需要更深的知识，比如基于范围、过滤以及排序的聚合。
 ((("time, analytics over", startref ="ix_timeanalyze")))
