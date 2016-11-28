@@ -4,7 +4,7 @@
 因为 `significant_terms` 聚合((("significant_terms aggregation", "demonstration of")))((("aggregations", "significant_terms", "demonstration of"))) 是通过分析统计信息来工作的，
 我们需要为数据设置一个阀值让它们更有效。这也就是说我们无法通过只索引少量示例数据来展示它。
 
-正因如此，我们准备了一个有 80，000 文档的数据集，并将它的快照保存在来一个公共演示库中。可以通过以下步骤在集群中还原这些数据：
+正因如此，我们准备了一个大约 8000 个文档的数据集，并将它的快照保存在来一个公共演示库中。可以通过以下步骤在集群中还原这些数据：
 
 . 在 `elasticsearch.yml` 配置文件中增加以下配置，
 将演示库加入到白名单中：
