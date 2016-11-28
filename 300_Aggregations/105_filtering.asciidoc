@@ -1,5 +1,5 @@
 [[_fielddata_filtering]]
-=== Fielddata 的过滤（Fielddata Filtering）
+=== Fielddata 的过滤
 
 设想我们正在运行一个网站允许用户收听他们喜欢的歌曲。((("fielddata", "filtering")))((("aggregations", "fielddata", "filtering")))
 为了让他们可以更容易的管理自己的音乐库，用户可以为歌曲设置任何他们喜欢的标签，这样我们就会有很多歌曲被附上 `rock（摇滚）` 、 `hiphop（嘻哈）` 和 `electronica（电音）` ，但也会有些歌曲被附上 `my_16th_birthday_favorite_anthem` 这样的标签。
