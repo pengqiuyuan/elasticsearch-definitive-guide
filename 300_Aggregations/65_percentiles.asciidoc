@@ -6,7 +6,7 @@ Elasticsearch 提供的另外一个近似度量就是 `percentiles` 百分位数
 
 百分位数通常用来找出异常。在（统计学）的正态分布下，第 0.13 和 第 99.87 的百分位数代表与均值距离三倍标准差的值。任何处于三倍标准差之外的数据通常被认为是不寻常的，因为它与平均值相差太大。
 
-更具体的说，假设我们正运行一个庞大的网站，而我们的任务是保证用户请求能得到快速响应，因此我们就需要监控网站的延时来判断响应是否能达到目标。
+更具体的说，假设我们正运行一个庞大的网站，而我们的任务是保证用户请求能得到快速响应，因此我们就需要监控网站的延时来判断响应是否能保证良好的用户体验。
 
 在此场景下，一个常用的度量方法就是平均响应延时。((("metrics", "for website latency monitoring")))((("average metric"))) 但这是一个不好的选择（尽管很常用），因为平均数通常会隐藏那些异常值，
 中位数有着同样的问题。((("mean/median metric"))) 我们可以尝试最大值，但这个度量会轻而易举的被单个异常值破坏。
@@ -278,7 +278,7 @@ GET /website/logs/_search
 但当我们有几十亿数据分布在几十个节点时，这几乎是不可能的。
 
 取而代之的是 `percentiles` 使用一个 TDigest 算法((("TDigest algorithm")))，（由 Ted Dunning 在 https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf[Computing Extremely Accurate Quantiles Using T-Digests] 里面提出的）。
-有了 HyperLogLog，就不需要理解完整的技术细节，但有必要了解算法的特性：
+与 HyperLogLog 一样，不需要理解完整的技术细节，但有必要了解算法的特性：
 
 - 百分位的准确度与百分位的 _极端程度_ 相关，也就是说 1 或 99 的百分位要比 50 百分位要准确。这只是数据结构内部机制的一种特性，但这是一个好的特性，因为多数人只关心极端的百分位。
 
