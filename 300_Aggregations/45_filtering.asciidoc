@@ -1,10 +1,10 @@
 [[_filtering_queries_and_aggregations]]
-== 聚合过滤
+== 过滤和聚合
 
 聚合范围限定还有一个自然的扩展就是过滤。因为聚合是在查询结果范围内操作的，任何可以适用于查询的过滤器也可以应用在聚合上。
 
 [float="true"]
-=== 查询（Filtered Query）
+=== 过滤
 如果我们想找到售价在 $10，000 美元之上的所有汽车同时也为这些车计算平均售价，((("filtering", "serch query results")))((("filtering query")))
 ((("queries"))) 可以简单地使用一个 `constant_score` 查询和 `filter` 约束：
 
@@ -33,7 +33,7 @@ GET /cars/transactions/_search
 --------------------------------------------------
 // SENSE: 300_Aggregations/45_filtering.json
 
-这正如我们在前面章节中讨论过那样，从根本上讲，使用 `non-scoring` 查询和使用 `match` 查询没有任何区别。查询（包括了一个过滤器）返回一组文档的子集，聚合正是操作这些文档。它只是碰巧省略 `scoring` ，并可能主动缓存 `bitsets` 等。
+这正如我们在前面章节中讨论过那样，从根本上讲，使用 `non-scoring` 查询和使用 `match` 查询没有任何区别。查询（包括了一个过滤器）返回一组文档的子集，聚合正是操作这些文档。使用 `filter query` 会忽略评分，并有可能会缓存结果数据等等。
 
 [float="true"]
 === 过滤桶（Filter Bucket）
@@ -85,11 +85,11 @@ GET /cars/transactions/_search
 因为 `filter` 桶和其他桶的操作方式一样，所以可以随意将其他桶和度量嵌入其中。所有嵌套的组件都会 "继承" 这个过滤，这使我们可以按需针对聚合过滤出选择部分。
 
 [float="true"]
-=== 展示过滤器（Post Filter）
+=== 后过滤器
 
 目前为止，我们可以同时对搜索结果和聚合结果进行过滤（ `non-scoring` 的 `filter` 查询），以及针对聚合结果的一部分进行过滤（ `filter` 桶）。
 
-我们可能会想，"有 _只_ 对搜索结果进行过滤而不过滤聚合结果的方式吗？"((("filtering", "search results, not the aggregation")))((("post filter"))) 答案是使用 `post_filter` 。
+我们可能会想，"有没有一种方式在没有聚合操作的时候，仅仅是对一次搜索后的结果进行二次过滤呢？"((("filtering", "search results, not the aggregation")))((("post filter"))) 答案是使用 `post_filter` 。
 
 它是顶层搜索请求元素接收一个过滤器。这个过滤器在查询 _之后_ 执行（这正是该过滤器的名字的由来：它在查询之后 +post+ 执行）。正因为它在查询之后执行，它对查询范围没有任何影响，所以对聚合也不会有任何影响。
 
@@ -130,7 +130,7 @@ GET /cars/transactions/_search
 [WARNING]
 .性能考虑（Performance consideration）
 ====
-_只在_ 我们需要区别过滤搜索结果和聚合结果时使用 `post_filter` ((("post filter", "performance and"))) 有时用户会在普通搜索使用 `post_filter` 。
+当你过滤不同的过滤结果集在聚合中，你才应该使用 `post_filter` ，((("post filter", "performance and"))) 有时用户会在普通搜索使用 `post_filter` 。
 不要这么做！ `post_filter` 的特性是在查询 _之后_ 执行，所以任何过滤所带来的好处（比如缓存）都会完全失去。
 
  `post_filter` 应该只在我们需要不同过滤时，只与聚合一起使用。
