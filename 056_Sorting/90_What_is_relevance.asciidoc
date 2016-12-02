@@ -10,7 +10,7 @@
 不同的查询语句用于不同的目的： `fuzzy` 查询会计算与关键词的拼写相似程度，`terms` 查询会计算
 找到的内容与关键词组成部分匹配的百分比，但是通常我们说的 _relevance_ 是我们用来计算全文本字段的值相对于全文本检索词相似程度的算法。
 
-ElasticSearch 的相似度算法((("Term Frequency/Inverse Document Frequency  (TF/IDF) similarity algorithm")))((("similarity algorithms", "Term Frequency/Inverse Document Frequency  (TF/IDF)")))被定义为检索词频率/反向文档频率， _TF/IDF_ ，包括以下内容：
+Elasticsearch 的相似度算法((("Term Frequency/Inverse Document Frequency  (TF/IDF) similarity algorithm")))((("similarity algorithms", "Term Frequency/Inverse Document Frequency  (TF/IDF)")))被定义为检索词频率/反向文档频率， _TF/IDF_ ，包括以下内容：
 
 检索词频率::
 
@@ -35,7 +35,7 @@ TIP: 我们有一️整章着眼于相关性计算和如何让其配合你的需
 [[explain]]
 ==== 理解评分标准
 
-当调试一条复杂的查询语句时，((("score", "calculation of")))((("relevance scores", "understanding")))想要理解  `_score` 究竟是如何计算是比较困难的。ElasticSearch 在
+当调试一条复杂的查询语句时，((("score", "calculation of")))((("relevance scores", "understanding")))想要理解  `_score` 究竟是如何计算是比较困难的。Elasticsearch 在
 每个查询语句中都有一个 explain 参数，将 `explain` 设为 `true` ((("explain parameter"))) 就可以得到更详细的信息。
 
 [source,js]
@@ -138,7 +138,7 @@ WARNING: 输出 `explain` 结果代价是十分昂贵的，它只能用作调试
 复杂的查询语句解释也非常复杂，但是包含的内容与上面例子大致相同。
 通过这段信息我们可以了解搜索结果是如何产生的。
 
-TIP]
+[TIP]
 ==================================================================
 JSON 形式的 `explain` 描述是难以阅读的，
 但是转成 YAML 会好很多，只需要在参数中加上 `format=yaml` 。((("explain parameter", "formatting output in YAML")))((("YAML, formatting explain output in")))
