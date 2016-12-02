@@ -1,5 +1,5 @@
 
-=== 混合度量（Adding a Metric to the Mix）
+=== 添加度量指标
 
 前面的例子告诉我们每个桶里面的文档数量，这很有用。((("aggregations", "basic example", "adding a metric")))但通常，我们的应用需要提供更复杂的文档度量。
 ((("metrics", "adding to basic aggregation (example)")))例如，每种颜色汽车的平均价格是多少？
@@ -73,6 +73,6 @@ GET /cars/transactions/_search
 ...
 }
 --------------------------------------------------
-<1> 响应中的新元素 `avg_price` 。
+<1> 响应中的新字段 `avg_price` 。
 
 尽管响应只发生很小改变，实际上我们获得的数据是增长了。之前，我们知道有四辆红色的车，现在，红色车的平均价格是 $32，500 美元。这个信息可以直接显示在报表或者图形中。
