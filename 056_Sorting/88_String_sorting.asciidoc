@@ -60,4 +60,4 @@ GET /_search
 --------------------------------------------------
 // SENSE: 056_Sorting/88_Multifield.json
 
-WARNING: 以全文 `analyzed` 字段排序会消耗大量的内存。获取更多信息请看 <<fielddata-intro>> 。
+WARNING: 以全文 `analyzed` 字段排序会消耗大量的内存。获取更多信息请看 <<aggregations-and-analysis>> 。
