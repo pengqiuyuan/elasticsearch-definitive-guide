@@ -1,6 +1,6 @@
 
 [[aggregations-and-analysis]]
-=== 聚合与分析（Aggregations and Analysis）
+=== 聚合与分析
 
 有些聚合，比如 `terms` 桶，((("analysis", "aggregations and")))((("aggregations", "and analysis"))) 操作字符串字段。字符串字段可能是 `analyzed` 或者 `not_analyzed` ，
 那么问题来了，分析是怎么影响聚合的呢？((("strings", "analyzed or not_analyzed string fields")))((("not_analyzed fields")))((("analyzed fields")))
