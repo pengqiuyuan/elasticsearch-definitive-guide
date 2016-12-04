@@ -1,5 +1,5 @@
 [[synonym-formats]]
-=== 格式化同义词
+=== 同义词格式
 
 同义词最简单的表达形式是 ((("synonyms", "formatting"))) 逗号分隔：
 
