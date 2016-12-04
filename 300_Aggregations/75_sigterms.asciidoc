@@ -45,7 +45,7 @@ NOTE: 数据集有 50 MB 会需要一些时间下载。
 在本演示中，会看看 MovieLens 里面用户对电影的评分。在 MovieLens 里，用户可以推荐电影并评分，这样其他用户也可以找到新的电影。
 为了演示，会基于输入的电影采用 `significant_terms` 对电影进行推荐。
 
-看看示例中的数据，感受一下要处理的内容。本数据集有两个索引， `mlmovies` 和 `mlratings` 。首先查看 `mlmovies` ：
+让我们看看示例中的数据，感受一下要处理的内容。本数据集有两个索引， `mlmovies` 和 `mlratings` 。首先查看 `mlmovies` ：
 
 [source,js]
 ----
@@ -76,7 +76,7 @@ GET mlmovies/_search <1>
 <1> 执行一个不带查询条件的搜索，以便能看到一组随机演示文档。
 
 `mlmovies` 里的每个文档表示一个电影，数据有两个重要字段：电影ID `_id` 和电影名 `title` 。可以忽略
-`offset` 和 `bytes` 。他们是从原始 CSV 文件抽取数据的过程中产生的中间属性。数据集中有 10，681 部影片。
+`offset` 和 `bytes` 。它们是从原始 CSV 文件抽取数据的过程中产生的中间属性。数据集中有 10，681 部影片。
 
 现在来看看 `mlratings` ：
 
@@ -396,7 +396,7 @@ GET mlratings/_search
 这也意味着 21% 的前景特征用户组推荐了影片 _Blades of Glory_ （ `59 / 271 = 0.2177` ）。
 
 形成对比的是， _Blades of Glory_ 在整个数据集合中仅被推荐了 185 次，
-只占 0.26% （ `185 / 69796 = 0.00265` ）。因此 _Blades of Glory_ 是一个统计异常：它在喜欢 _Talladega Nights_ 的用户中是非常好的共性。这样就找到了一个好的推荐！
+只占 0.26% （ `185 / 69796 = 0.00265` ）。因此 _Blades of Glory_ 是一个统计异常：它在喜欢 _Talladega Nights_ 的用户中是显著的共性（注：uncommonly common）。这样就找到了一个好的推荐！
 
 如果看完整的列表，它们都是好的喜剧推荐（其中很多也是由 Will Ferrell 主演）：
 
@@ -406,4 +406,4 @@ GET mlratings/_search
 4. Knocked Up（一夜大肚）
 5. 40-Year-Old Virgin, The（四十岁的老处男）
 
-这只是 `significant_terms` 它强大的一个示例，一旦开始使用 `significant_terms` ，可能碰到这样的情况，我们不想要最流行的，而想要非常好的共性。这个简单的聚合可以揭示出一些数据里出人意料的复杂趋势。
+这只是 `significant_terms` 它强大的一个示例，一旦开始使用 `significant_terms` ，可能碰到这样的情况，我们不想要最流行的，而想要显著的共性（注：uncommonly common）。这个简单的聚合可以揭示出一些数据里出人意料的复杂趋势。
