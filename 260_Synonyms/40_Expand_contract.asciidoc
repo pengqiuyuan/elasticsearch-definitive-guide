@@ -1,20 +1,20 @@
 [[synonyms-expand-or-contract]]
 === 扩展或收缩
 
-在 <<synonym-formats>> 中，我们看到了 ((("synonyms", "expanding or contracting"))) 可以通过 _简单扩展_ 、 _简单收缩_ 、或_通用扩展_ 来指明同义词规则。
+在 <<synonym-formats>> 中，我们看到了((("synonyms", "expanding or contracting")))可以通过 _简单扩展_ 、 _简单收缩_ 、或_类型扩展_ 来指明同义词规则。
 本章节我们将在这三者间做个权衡比较。
 
-提示：本节仅处理单词同义词。多词同义词又增添了一层复杂性，在 <<multi-word-synonyms>> 中，我们将会讨论。
+TIP: 本节仅处理单词同义词。多词同义词又增添了一层复杂性，在 <<multi-word-synonyms>> 中，我们将会讨论。
 
 [[synonyms-expansion]]
 ==== 简单扩展
 
-通过 _简单扩展_ ，((("synonyms", "expanding or contracting", "simple expansion")))((("simple expansion (synonyms)"))) 我们可以把同义词列表中的任意一个词扩展成同义词列表 _所有_ 的词：
+通过 _简单扩展_ ，((("synonyms", "expanding or contracting", "simple expansion")))((("simple expansion (synonyms)")))我们可以把同义词列表中的任意一个词扩展成同义词列表 _所有_ 的词：
 
     "jump,hop,leap"
 
-扩展可以应用在索引或查询的时候。两者都有优点
-(⬆)︎ 和缺点 (⬇)︎。到底要在哪个时候使用，则取决于性能与灵活性：
+扩展可以应用在索引阶段或查询阶段。两者都有优点
+(⬆)︎ 和缺点 (⬇)︎。到底要在哪个阶段使用，则取决于性能与灵活性：
 
 [options="header",cols="h,d,d"]
 |===================================================
@@ -44,9 +44,9 @@ _简单收缩_ ，把 ((("synonyms", "expanding or contracting", "simple contrac
 
     "leap,hop => jump"
 
-它必须同时应用于索引和查询，以确保查询词项映射到索引中存在的同一个值。
+它必须同时应用于索引和查询阶段，以确保查询词项映射到索引中存在的同一个值。
 
-这种方法相对于简单扩展方法有一些优点也有一些缺点相比：
+相对于简单扩展方法，这种方法也有一些优点和一些缺点：
 
 索引的大小::
 
@@ -64,7 +64,7 @@ _简单收缩_ ，把 ((("synonyms", "expanding or contracting", "simple contrac
 +
 --
 
-⬆︎ 新同义词可以添加到规则的左侧并在查询的时候使用。例如，我们想添加 `bound` 到先前指定的同义词规则中。那么下面的规则将作用于包含 `bound` 的查询或包含 `bound` 的文档索引：
+⬆︎ 新同义词可以添加到规则的左侧并在查询阶段使用。例如，我们想添加 `bound` 到先前指定的同义词规则中。那么下面的规则将作用于包含 `bound` 的查询或包含 `bound` 的文档索引：
 
     "leap,hop,bound => jump"
 
@@ -72,7 +72,7 @@ _简单收缩_ ，把 ((("synonyms", "expanding or contracting", "simple contrac
 
     "leap,hop,bound => jump,bound"
 
-当你重建索引文件，你可以恢复到上面的规则（注： `leap,hop,bound => jump` ）来获得查询单个词项的性能优势（注：因为上面那个规则相比这个而言，查询的时候就只要查询一个词了）。
+当你重建索引文件，你可以恢复到上面的规则（注： `leap,hop,bound => jump` ）来获得查询单个词项的性能优势（注：因为上面那个规则相比这个而言，查询阶段就只要查询一个词了）。
 
 --
 
@@ -87,15 +87,15 @@ _简单收缩_ ，把 ((("synonyms", "expanding or contracting", "simple contrac
     "dog    => dog,pet"
     "puppy  => puppy,dog,pet"
 
-通过在索引的时候使用类型扩展：
+通过在索引阶段使用类型扩展：
 
 * 一个关于 `kitten` 的查询会发现关于 kittens 的文档。
 * 查询一个 `cat` 会找到关于 kittens 和 cats 的文档。
 * 一个 `pet` 的查询将发现有关的 kittens、cats、puppies、dogs 或者 pets 的文档。
 
-通过在查询时候的使用类型扩展， `kitten` 的查询结果就会被拓展成涉及到 kittens、cats、dogs。
+或者在查询阶段使用类型扩展， `kitten` 的查询结果就会被拓展成涉及到 kittens、cats、dogs。
 
-您也可以有两全其美的办法，通过在索引的时候应用类型扩展同义词规则，以确保类型在索引中存在。然后，在查询的时候，
-你可以选择不采用同义词（使 `kitten` 查询只返回 kittens 的文件）或采用同义词， `kitten` 的查询操作就会返回包括 kittens、cats、pets（也即包括 dogs 和 puppies）的相关结果。
+您也可以有两全其美的办法，通过在索引阶段应用类型扩展同义词规则，以确保类型在索引中存在。然后，在查询阶段，
+你可以选择不采用同义词（使 `kitten` 查询只返回 kittens 的文件）或采用同义词， `kitten` 的查询操作就会返回包括 kittens、cats、pets（也包括 dogs 和 puppies）的相关结果。
 
-前面的示例规则，对 `kitten` 的 IDF 将是正确的，而 `cat` 和 `pet` 的 IDF 将会被 Elasticsearch 降权。然而, 这是对你有利的，当一个针对 `kitten` 的查询被拓展成了针对  `kitten` 、 `cat` 或者 `pet` 的查询， 那么 `kitten` 相关的文档就应该排在最上方，其次是 `cat` 的文件， `pet` 的文件将被排在最底部。
+前面的示例规则，对 `kitten` 的 IDF 将是正确的，而 `cat` 和 `pet` 的 IDF 将会被 Elasticsearch 降权。然而, 这是对你有利的，当一个针对 `kitten` 的查询被拓展成了针对 `kitten OR cat OR pet` 的查询， 那么 `kitten` 相关的文档就应该排在最上方，其次是 `cat` 的文件， `pet` 的文件将被排在最底部。
