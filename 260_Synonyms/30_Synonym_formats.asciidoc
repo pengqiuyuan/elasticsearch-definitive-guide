@@ -1,7 +1,7 @@
 [[synonym-formats]]
-=== 格式化的同义词
+=== 格式化同义词
 
-在他们最简单的形式中，同义词 ((("synonyms", "formatting"))) 被列为逗号分隔的值：
+同义词最简单的表达形式是 ((("synonyms", "formatting"))) 逗号分隔：
 
     "jump,leap,hop"
 
@@ -31,9 +31,9 @@ united states   → (usa)
 great britain   → (britain,england,scotland,wales)
 --------------------------
 
-如果多个规则指定了同一个同义词，它们将合并在一起。规则的顺序不用关心。相反，最长的匹配规则获胜。以下面的规则为例：
+如果多个规则指定同一个同义词，它们将被合并在一起，且顺序无关，否则使用最长匹配。以下面的规则为例：
 
     "united states            => usa",
     "united states of america => usa"
 
-如果这些规则相冲突，Elasticsearch 会将 `United States of America` 纳入 `(usa),(of),(america)` 词项。相反，最长的序列获胜，我们最终只不过是这个词项 `(usa)` 。
+如果这些规则相互冲突，Elasticsearch 会将 `United States of America` 转换为词项 `(usa),(of),(america)` 。否则，会使用最长的序列，即最终得到词项 `(usa)` 。
