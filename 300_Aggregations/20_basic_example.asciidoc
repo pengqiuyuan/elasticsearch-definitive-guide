@@ -1,8 +1,8 @@
 [[_aggregation_test_drive]]
-== 测试驱动
+== 尝试聚合
 
 我们可以用以下几页定义不同的聚合和它们的语法，((("aggregations", "basic example", id="ix_basicex"))) 但学习聚合的最佳途径就是用实例来说明。
-一旦我们获得了聚合的思想，以及如何合理地嵌套使用它们，那么语法就变得不那么重要。
+一旦我们获得了聚合的思想，以及如何合理地嵌套使用它们，那么语法就变得不那么重要了。
 
 [注意]
 =========================
@@ -11,7 +11,7 @@
 
 所以让我们先看一个例子。我们将会创建一些对汽车经销商有用的聚合，数据是关于汽车交易的信息：车型、制造商、售价、何时被出售等。
 
-首先我们新建并索引一些数据：
+首先我们批量索引一些数据：
 
 [source,js]
 --------------------------------------------------
@@ -53,23 +53,23 @@ GET /cars/transactions/_search
 --------------------------------------------------
 // SENSE: 300_Aggregations/20_basic_example.json
 
-<1> 聚合操作被至于顶层参数 ((("aggregations", "aggs parameter"))) `aggs` 之下（如果愿意也可以用完整形式 `aggregations` 同样有效）。
+<1> 聚合操作被置于顶层参数 ((("aggregations", "aggs parameter"))) `aggs` 之下（如果你愿意，完整形式 `aggregations` 同样有效）。
 <2> 然后，可以为聚合指定一个我们想要名称，本例中是： `popular_colors` 。
 <3> 最后，定义单个桶的类型 `terms` 。
 
-聚合是在特定搜索结果背景下执行的，((("searching", "aggregations executed in context of search results"))) 这也就是说它只是另外一个查询请求的顶层参数（例如，使用 `/_search` 端点）。
-聚合可以与查询结对，但我们会晚些在 <<限定聚合的范围（Scoping Aggregations）>> 中来解决这个问题。
+聚合是在特定搜索结果背景下执行的，((("searching", "aggregations executed in context of search results"))) 这也就是说它只是查询请求的另外一个顶层参数（例如，使用 `/_search` 端点）。
+聚合可以与查询结对，但我们会晚些在 <<_scoping_aggregations,限定聚合的范围（Scoping Aggregations）>> 中来解决这个问题。
 
-[注意]
+[NOTE]
 =========================
 可能会注意到我们将 `size` 设置成 0 。我们并不关心搜索结果的具体内容，所以将返回记录数设置为 0 来提高查询速度。
-设置 `size: 0` 与 Elasticsearch 1.x 中使用 `count` 类型等价。
+设置 `size: 0` 与 Elasticsearch 1.x 中使用 `count` 搜索类型等价。
 =========================
 
 然后我们为聚合定义一个名字，名字的选择取决于使用者，响应的结果会以我们定义的名字为标签，这样应用就可以解析得到的结果。
 
 随后我们定义聚合本身，在本例中，我们定义了一个单 `terms` 桶。((("buckets", "terms bucket (example)")))((("terms bucket", "defining in example aggregation")))  这个 `terms` 桶会为每个碰到的唯一词项动态创建新的桶。
-因为我们告诉它使用 `color` 字段，所以它会为每个颜色动态创建新桶。
+因为我们告诉它使用 `color` 字段，所以 `terms` 桶会为每个颜色动态创建新桶。
 
 让我们运行聚合并查看结果：
 
@@ -100,7 +100,7 @@ GET /cars/transactions/_search
    }
 }
 --------------------------------------------------
-<1> 因为我们设置了 `size` 参数，所以不会有 `hits` 搜索结果返回。
+<1> 因为我们设置了 `size` 参数，所以不会有 hits 搜索结果返回。
 <2> `popular_colors` 聚合是作为 `aggregations` 字段的一部分被返回的。
 <3> 每个桶的 `key` 都与 `color` 字段里找到的唯一词对应。它总会包含 `doc_count` 字段，告诉我们包含该词项的文档数量。
 <4> 每个桶的数量代表该颜色的文档数量。
