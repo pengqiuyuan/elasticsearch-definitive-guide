@@ -33,7 +33,7 @@ PUT /my_index
 -------------------------------------
 <1> 首先，我们定义了一个 `同义词` 类型的语汇单元过滤器。
 <2> 我们在 <<synonym-formats>> 中讨论同义词格式。
-<3> 然后我们创建了一个自定义分析器 `my_synonym_filter` 。
+<3> 然后我们创建了一个使用 `my_synonym_filter` 的自定义分析器。
 
 [TIP]
 ==================================================
@@ -61,14 +61,14 @@ Pos 5: (queen,monarch) <1>
 ------------------------------------
 <1> 所有同义词与原始词项占有同一个位置。
 
-这样的一个文件将匹配任何以下的查询： `English queen` 、`British queen` 、 `English monarch` or `British monarch` 。
+这样的一个文件将匹配任何以下的查询： `English queen` 、`British queen` 、 `English monarch` 或 `British monarch` 。
 即使是一个短语查询也将会工作，因为每个词项的位置已被保存。
 
 [TIP]
 ======================================
 
 在索引和搜索中使用相同的同义词语汇单元过滤器是多余的。((("synonym token filter", "using at index time versus search time")))  如果在索引的时候，我们用 `english` 和 `british` 这两个术语代替 `English` ，
-然后在搜索的时候，我们需要搜索这些词项中的一个。另外，如果在索引的时候我们不使用同义词，然后在搜索的时候，我们将需要把对 `English` 的查询转换为 `english` 或者 `british` 的查询。
+然后在搜索的时候，我们只需要搜索这些词项中的一个。或者，如果在索引的时候我们不使用同义词，然后在搜索的时候，我们将需要把对 `English` 的查询转换为 `english` 或者 `british` 的查询。
 
 是否在搜索或索引的时候做同义词扩展可能是一个困难的选择。我们将探索更多的选择 <<synonyms-expand-or-contract>>。
 
