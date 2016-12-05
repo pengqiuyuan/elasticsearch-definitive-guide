@@ -33,12 +33,12 @@ GET /cars/transactions/_search
 --------------------------------------------------
 // SENSE: 300_Aggregations/45_filtering.json
 
-这正如我们在前面章节中讨论过那样，从根本上讲，使用 `non-scoring` 查询和使用 `match` 查询没有任何区别。查询（包括了一个过滤器）返回一组文档的子集，聚合正是操作这些文档。使用 `filter query` 会忽略评分，并有可能会缓存结果数据等等。
+这正如我们在前面章节中讨论过那样，从根本上讲，使用 `non-scoring` 查询和使用 `match` 查询没有任何区别。查询（包括了一个过滤器）返回一组文档的子集，聚合正是操作这些文档。使用 `filtering query` 会忽略评分，并有可能会缓存结果数据等等。
 
 [float="true"]
 === 过滤桶（Filter Bucket）
 
-但是如果我们只想对聚合结果过滤怎么办？((("filtering", "aggregation results, not the query")))((("aggregations", "filtering just aggregations"))) 假设我们正在创建一个可以搜索汽车经销商的页面，
+但是如果我们只想对聚合结果过滤怎么办？((("filtering", "aggregation results, not the query")))((("aggregations", "filtering just aggregations"))) 假设我们正在为汽车经销商创建一个搜索页面，
 我们希望显示用户搜索的结果，但是我们同时也想在页面上提供更丰富的信息，包括（与搜索匹配的）上个月度汽车的平均售价。
 
 这里我们无法简单的做范围限定，因为有两个不同的条件。搜索结果必须是 +ford+ ，但是聚合结果必须满足 +ford+
@@ -80,18 +80,18 @@ GET /cars/transactions/_search
 --------------------------------------------------
 // SENSE: 300_Aggregations/45_filtering.json
 <1> 使用 `过滤` 桶在 `查询` 范围基础上应用过滤器。
-<2> `avg` 度量只会对 +ford+ 和一月以内售出的文档计算平均售价。
+<2> `avg` 度量只会对 +ford+ 和上个月售出的文档计算平均售价。
 
 因为 `filter` 桶和其他桶的操作方式一样，所以可以随意将其他桶和度量嵌入其中。所有嵌套的组件都会 "继承" 这个过滤，这使我们可以按需针对聚合过滤出选择部分。
 
 [float="true"]
 === 后过滤器
 
-目前为止，我们可以同时对搜索结果和聚合结果进行过滤（ `non-scoring` 的 `filter` 查询），以及针对聚合结果的一部分进行过滤（ `filter` 桶）。
+目前为止，我们可以同时对搜索结果和聚合结果进行过滤（不计算得分的 `filter` 查询），以及针对聚合结果的一部分进行过滤（ `filter` 桶）。
 
-我们可能会想，"有没有一种方式在没有聚合操作的时候，仅仅是对一次搜索后的结果进行二次过滤呢？"((("filtering", "search results, not the aggregation")))((("post filter"))) 答案是使用 `post_filter` 。
+我们可能会想，"只过滤搜索结果，不过滤聚合结果呢？"((("filtering", "search results, not the aggregation")))((("post filter"))) 答案是使用 `post_filter` 。
 
-它是顶层搜索请求元素接收一个过滤器。这个过滤器在查询 _之后_ 执行（这正是该过滤器的名字的由来：它在查询之后 +post+ 执行）。正因为它在查询之后执行，它对查询范围没有任何影响，所以对聚合也不会有任何影响。
+它是接收一个过滤器的顶层搜索请求元素。这个过滤器在查询 _之后_ 执行（这正是该过滤器的名字的由来：它在查询之后 +post+ 执行）。正因为它在查询之后执行，它对查询范围没有任何影响，所以对聚合也不会有任何影响。
 
 我们可以利用这个行为对查询条件应用更多的过滤器，而不会影响其他的操作，就如 UI 上的各个分类面。让我们为汽车经销商设计另外一个搜索页面，这个页面允许用户搜索汽车同时可以根据颜色来过滤。颜色的选项是通过聚合获得的：
 
@@ -130,8 +130,8 @@ GET /cars/transactions/_search
 [WARNING]
 .性能考虑（Performance consideration）
 ====
-当你过滤不同的过滤结果集在聚合中，你才应该使用 `post_filter` ，((("post filter", "performance and"))) 有时用户会在普通搜索使用 `post_filter` 。
-不要这么做！ `post_filter` 的特性是在查询 _之后_ 执行，所以任何过滤所带来的好处（比如缓存）都会完全失去。
+当你需要对搜索结果和聚合结果做不同的过滤时，你才应该使用 `post_filter` ，((("post filter", "performance and"))) 有时用户会在普通搜索使用 `post_filter` 。
+不要这么做！ `post_filter` 的特性是在查询 _之后_ 执行，任何过滤对性能带来的好处（比如缓存）都会完全失去。
 
  `post_filter` 应该只在我们需要不同过滤时，只与聚合一起使用。
 ====
