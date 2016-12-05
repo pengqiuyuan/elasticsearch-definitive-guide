@@ -35,10 +35,10 @@ GET /cars/transactions/_search
 我们为聚合引入了一个 +order+ 对象，((("order parameter (aggregations)"))) 它允许我们可以根据以下几个值中的一个值进行排序：
 
 `_count`::
-按文档数排序。在 `terms` 、 `histogram` 、 `date_histogram` 。
+按文档数排序。对 `terms` 、 `histogram` 、 `date_histogram` 有效。
 
 `_term`::
-按词项的字符串值的字母顺序排序。只在 `terms` 内使用。。
+按词项的字符串值的字母顺序排序。只在 `terms` 内使用。
 
 `_key`::
 按每个桶的键值数值排序（理论上与 `_term` 类似）。
@@ -104,7 +104,7 @@ GET /cars/transactions/_search
 }
 --------------------------------------------------
 // SENSE: 300_Aggregations/50_sorting_ordering.json
-<1> 使用 `.` 符号，我们可以对感兴趣的度量进行排序。
+<1> 使用 `.` 符号，根据感兴趣的度量进行排序。
 
 在上面这个例子中，我们按每个桶的方差来排序，所以这种颜色售价方差最小的会排在结果集最前面。
 
