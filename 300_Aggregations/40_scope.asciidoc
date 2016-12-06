@@ -1,8 +1,8 @@
 
 [[_scoping_aggregations]]
-== 范围限定
+== 范围限定的聚合
 
-所有聚集的例子到目前为止，你可能已经注意到，我们的搜索请求省略了一个 `query` 。((("queries", "in aggregations")))((("aggregations", "scoping"))) 整个请求只不过是一个聚合。
+所有聚合的例子到目前为止，你可能已经注意到，我们的搜索请求省略了一个 `query` 。((("queries", "in aggregations")))((("aggregations", "scoping"))) 整个请求只不过是一个聚合。
 
 聚合可以与搜索请求同时执行，但是我们需要理解一个新概念： _范围_ 。((("scoping aggregations", id="ix_scopeaggs", range="startofrange"))) 默认情况下，聚合与查询是对同一范围进行操作的，也就是说，聚合是基于我们查询匹配的文档集合进行计算的。
 
@@ -24,7 +24,7 @@ GET /cars/transactions/_search
 --------------------------------------------------
 // SENSE: 300_Aggregations/40_scope.json
 
-我们可以看到聚合是隔离的。现实中，Elasticsearch 认为 `没有指定查询` 和 `查询所有文档` 是等价的。前面这个查询内部会转化成下面的这个请求：
+我们可以看到聚合是隔离的。现实中，Elasticsearch 认为 "没有指定查询" 和 "查询所有文档" 是等价的。前面这个查询内部会转化成下面的这个请求：
 
 [source,js]
 --------------------------------------------------
