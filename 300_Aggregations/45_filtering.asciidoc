@@ -41,8 +41,7 @@ GET /cars/transactions/_search
 但是如果我们只想对聚合结果过滤怎么办？((("filtering", "aggregation results, not the query")))((("aggregations", "filtering just aggregations"))) 假设我们正在为汽车经销商创建一个搜索页面，
 我们希望显示用户搜索的结果，但是我们同时也想在页面上提供更丰富的信息，包括（与搜索匹配的）上个月度汽车的平均售价。
 
-这里我们无法简单的做范围限定，因为有两个不同的条件。搜索结果必须是 +ford+ ，但是聚合结果必须满足 +ford+
-和 +sold > now - 1M+ 。
+这里我们无法简单的做范围限定，因为有两个不同的条件。搜索结果必须是 +ford+ ，但是聚合结果必须满足 +ford+ AND +sold > now - 1M+ 。
 
 为了解决这个问题，我们可以用一种特殊的桶，叫做 `filter` （注：过滤桶） 。((("filter bucket")))((("buckets", "filter"))) 我们可以指定一个过滤桶，当文档满足过滤桶的条件时，我们将其加入到桶内。
 
@@ -119,7 +118,7 @@ GET /cars/transactions/_search
 }
 --------------------------------------------------
 // SENSE: 300_Aggregations/45_filtering.json
-<1> `post_filter` 元素是 +顶层元素+ 而且仅对命中结果进行过滤。
+<1> `post_filter` 元素是 +top-level+ 而且仅对命中结果进行过滤。
 
 `查询` 部分找到所有的 +ford+ 汽车，然后用 `terms` 聚合创建一个颜色列表。因为聚合对查询范围进行操作，颜色列表与福特汽车有的颜色相对应。
 
@@ -131,9 +130,10 @@ GET /cars/transactions/_search
 .性能考虑（Performance consideration）
 ====
 当你需要对搜索结果和聚合结果做不同的过滤时，你才应该使用 `post_filter` ，((("post filter", "performance and"))) 有时用户会在普通搜索使用 `post_filter` 。
+
 不要这么做！ `post_filter` 的特性是在查询 _之后_ 执行，任何过滤对性能带来的好处（比如缓存）都会完全失去。
 
- `post_filter` 应该只在我们需要不同过滤时，只与聚合一起使用。
+在我们需要不同过滤时， `post_filter` 只与聚合一起使用。
 ====
 
 [float="true"]
