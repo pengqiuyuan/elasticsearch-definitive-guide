@@ -5,7 +5,7 @@
 
 [float="true"]
 === 过滤
-如果我们想找到售价在 $10，000 美元之上的所有汽车同时也为这些车计算平均售价，((("filtering", "serch query results")))((("filtering query")))
+如果我们想找到售价在 $10,000 美元之上的所有汽车同时也为这些车计算平均售价，((("filtering", "serch query results")))((("filtering query")))
 ((("queries"))) 可以简单地使用一个 `constant_score` 查询和 `filter` 约束：
 
 [source,js]
